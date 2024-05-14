@@ -15,6 +15,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import dj_database_url
+import django_heroku
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -25,7 +28,7 @@ SECRET_KEY = "django-insecure-i63lm7v6@q%fm$mwox@hg9y+5-3#nw32v)6l^q9+eopc^ft!nq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['djangofirstproject-784c27cb604a.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -63,7 +66,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "backend.urls"
-CORS_ALLOW_ALL_ORIGINS = True
+
 
 TEMPLATES = [
     {
@@ -130,6 +133,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -159,3 +165,16 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',  # Allow all domains from localhost on port 3000
+    'https://example.com',     # Allow all domains from example.com
+]
+
+
+# Configure Django App for Heroku.
+django_heroku.settings(locals())
+
+
+
+CORS_ALLOW_ALL_ORIGINS = True
