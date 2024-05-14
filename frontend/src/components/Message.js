@@ -1,7 +1,11 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { deleteMessage } from '../services/api';
 
-const Message = ({ message, roomId, onDelete }) => {
+const Message = ({ message, roomId, onDelete, isUserMessage }) => {
+    const [showOptions, setShowOptions] = useState(false);
+    const [showTimestamp, setShowTimestamp] = useState(false);
+
     const handleDelete = async () => {
         try {
             await deleteMessage(roomId, message.id);
@@ -12,16 +16,53 @@ const Message = ({ message, roomId, onDelete }) => {
         }
     };
 
+    const toggleOptions = () => {
+        setShowOptions(!showOptions);
+    };
+
+    const handleTextClick = () => {
+        setShowTimestamp(true);
+        setTimeout(() => setShowTimestamp(false), 1000); // Hide timestamp after 1 second
+    };
+
     return (
-        <div className="message p-2 mb-2 border-b border-gray-200">
-            <strong>{message.username || 'Anonymous'}</strong>: {message.text}
-            <div className="text-xs text-gray-500">
-                {new Date(message.timestamp).toLocaleString()}
+        <div className={`flex ${isUserMessage ? 'justify-end' : 'justify-start'} mb-4`}>
+            <div className={`relative p-4 rounded-lg ${isUserMessage ? 'bg-blue-100 text-right' : 'bg-gray-100 text-left'} shadow`}>
+                <div className="flex items-center mb-1">
+                    <strong className={`mr-2 ${isUserMessage ? 'text-blue-700' : 'text-gray-700'}`}>
+                        {message.username || 'Anonymous'}
+                    </strong>
+                    <button
+                        className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                        onClick={toggleOptions}
+                    >
+                        &#8942; {/* Vertical ellipsis character */}
+                    </button>
+                </div>
+                <div onClick={handleTextClick} className="cursor-pointer inline">
+                    {message.text}
+                </div>
+                {showOptions && (
+                    <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded shadow-lg z-10">
+                        <button
+                            onClick={handleDelete}
+                            className="block px-4 py-2 text-sm text-red-500 hover:bg-red-100 w-full text-left"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                )}
+                {showTimestamp && (
+                    <div className="text-xs text-gray-500 mt-1">
+                        {new Date(message.timestamp).toLocaleString()}
+                    </div>
+                )}
             </div>
-            <button onClick={handleDelete} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
         </div>
     );
 };
 
 export default Message;
+
+
 
