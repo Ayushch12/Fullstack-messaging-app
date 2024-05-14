@@ -1,4 +1,4 @@
-#!/Users/aayush/fullstack-messaging/backend/venv/bin/python
+#!/Users/aayush/fullstack-messaging/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
