@@ -7,3 +7,4 @@ drf_yasg==1.21.7
 dj_database_url==0.5.0
 django-heroku==0.3.1
 channels==4.0.0
+bcrypt==4.0.1
