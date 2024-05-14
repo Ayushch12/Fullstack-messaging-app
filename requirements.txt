@@ -4,3 +4,4 @@ django-cors-headers==4.3.1
 djangorestframework==3.15.1
 sqlparse==0.5.0
 drf_yasg
+dj_database_url==0.5.0
