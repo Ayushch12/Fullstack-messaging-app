@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_yasg',
     'chat',
-    'corsheaders',  # After installing django-cors-headers
+    'corsheaders',
+    'channels',
 ]
 
 REST_FRAMEWORK = {
@@ -146,4 +147,15 @@ SWAGGER_SETTINGS = {
         }
     },
     'USE_SESSION_AUTH': False
+}
+
+ASGI_APPLICATION = 'backend.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
 }
